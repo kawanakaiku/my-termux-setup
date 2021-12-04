@@ -72,7 +72,8 @@ sed -i -e 's@^deb h@deb [trusted=yes] h@g' "$PREFIX/etc/apt/sources.list"
 
 ##Install favorites
 log "Installing favorites"
-pkgs="ffmpeg bash-completion nano wget python ncdu htop openssh x11-repo termux-api"
+pkgs="openssh "
+#pkgs+="bash-completion ffmpeg nano wget python ncdu htop openssh x11-repo termux-api "
 apt update -y
 apt install -y $pkgs
 unset pkgs
@@ -90,7 +91,7 @@ cat <<"EOF" | tee "$HOME/bin/termux-url-opener" >/dev/null
 url="$1"
 SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
 dir="$SD/Movies"
-${PREFIX}/bin/yt-dlp -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
+${HOME}/bin/startubuntu.sh /usr/local/bin/yt-dlp -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
 EOF
 
 ##Move cache dir to SD
