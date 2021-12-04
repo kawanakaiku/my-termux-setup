@@ -158,8 +158,9 @@ echo -en '# KEYBOARD CONFIGURATION FILE\n\n# Consult the keyboard(5) manual page
 tee "${dir}/etc/default/keyboard" >/dev/null
 
 unwanted="tumbler ubuntu-report popularity-contest apport whoopsie apport-symptoms snap snapd apparmor synaptic rsyslog man-db yelp-xsl yelp"
-wanted="htop ncdu nano vim bash-completion wget curl ffmpeg p7zip-full p7zip-rar python3-pip python3-requests python3-numpy python3-matplotlib python3-pandas python3-sklearn python3-pyftpdlib python3-bs4 unar pv aria2 nodejs npm ruby imagemagick command-not-found"
-errors="udisks2 dbus libpam-systemd:$ARCHITECTURE policykit-1 networkd-dispatcher"
+wanted="htop ncdu nano vim bash-completion wget curl ffmpeg p7zip-full p7zip-rar python3-pip python3-requests python3-numpy python3-matplotlib python3-pandas python3-sklearn python3-pyftpdlib python3-bs4 unar pv aria2 nodejs npm ruby imagemagick command-not-found python3-websockets python3-mutagen python3-pycryptodome"
+errors=""
+#errors+=="udisks2 dbus libpam-systemd:$ARCHITECTURE policykit-1 networkd-dispatcher"
 (
 ##disable tzdata asking
 echo -e "export DEBIAN_FRONTEND=noninteractive"
@@ -167,6 +168,7 @@ echo -e "ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime"
 echo -e "apt-get update \napt-get purge -y --auto-remove $unwanted \napt-mark hold $unwanted"
 echo -e "apt-get install --no-install-recommends -y $wanted $errors"
 echo -e "rm -f $(for i in $errors;do echo /var/lib/dpkg/info/$i.postinst;done) \napt-get --fix-broken install"
+echo -e "apt-get update"
 echo -e "cd /root \nmkdir -p bin \ncd bin"
 echo -e "pip3 -U yt-dlp"
 #echo -e "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp &&\n chmod a+rx yt-dlp"
