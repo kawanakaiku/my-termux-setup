@@ -148,11 +148,14 @@ EOM
 chmod +x "$script"
 
 ##add ~/bin to PATH
-bashrc='export PATH=$PATH:$HOME/bin\nexec $HOME/bin/startubuntu.sh'
+bashrc='export PATH="$PATH:$HOME/bin"'
 if ! grep -zoPq "^$bashrc" "$HOME/.bashrc" 2>/dev/null ;then
    echo -e "$bashrc" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 
+##disable keyboard layout asking
+echo -en '# KEYBOARD CONFIGURATION FILE\n\n# Consult the keyboard(5) manual page.\n\nXKBMODEL="pc105"\nXKBLAYOUT="jp"\nXKBVARIANT=""\nXKBOPTIONS=""\n\nBACKSPACE="guess"\n' |
+tee "${dir}/etc/default/keyboard" >/dev/null
 
 unwanted="tumbler ubuntu-report popularity-contest apport whoopsie apport-symptoms snap snapd apparmor synaptic rsyslog man-db yelp-xsl yelp"
 wanted="htop ncdu nano vim bash-completion wget curl ffmpeg p7zip-full p7zip-rar python3-pip python3-requests python3-numpy python3-matplotlib python3-pandas python3-sklearn python3-pyftpdlib python3-bs4 unar pv aria2 nodejs npm ruby imagemagick command-not-found"
