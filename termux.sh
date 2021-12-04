@@ -70,9 +70,13 @@ if ! [ -f "$bashrc" ] || ! grep -zoPq "^$bashrc" "$HOME/.bashrc"; then
 fi
 unset bin bashrc string
 
+##Force apt to trust the repo
+log "Forcing apt to trust the repo"
+sed -i -e 's@^deb h@deb [trusted=yes] h@g' "$PREFIX/etc/apt/sources.list"
+
 ##Install favorites
 log "Installing favorites"
-pkgs="ffmpeg bash-completion nano wget python"
+pkgs="ffmpeg bash-completion nano wget python ncdu htop"
 pkg install -y $pkgs
 unset pkgs
 
@@ -80,7 +84,7 @@ unset pkgs
 log "Installing yt-dlp to ~/bin"
 #curl --retry 5 -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp" -o "$HOME/bin/yt-dlp"
 #chmod a+rx "$HOME/bin/yt-dlp"
-pip3 install yt-dlp
+pip3 install -U --no-deps yt-dlp
 
 ##Put termux-url-opener
 log "Putting termux-url-opener"
@@ -89,12 +93,13 @@ cat <<"EOF" | tee "$HOME/bin/termux-url-opener" >/dev/null
 url="$1"
 SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
 dir="$SD/Movies"
-$HOME/bin/yt-dlp -o "$dir/%(title)s.%(ext)s" "$url" || sleep 1m
+${PREFIX}/bin/yt-dlp -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
 EOF
 
 ##Move cache dir to SD
 log "Moving cache dir to SD"
 mkdir -p "$external/deb/cache"
+rm -rf "$HOME/.cache"
 ln -s "$external/deb/cache" "$HOME/.cache"
 
 termux-wake-unlock
