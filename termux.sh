@@ -79,10 +79,10 @@ apt install -y $pkgs
 unset pkgs
 
 ##Install yt-dlp to ~/bin
-log "Installing yt-dlp to ~/bin"
-#curl --retry 5 -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp" -o "$HOME/bin/yt-dlp"
-#chmod a+rx "$HOME/bin/yt-dlp"
-pip3 install -U --no-deps yt-dlp
+#log "Installing yt-dlp to ~/bin"
+##curl --retry 5 -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp" -o "$HOME/bin/yt-dlp"
+##chmod a+rx "$HOME/bin/yt-dlp"
+#pip3 install -U --no-deps yt-dlp
 
 ##Put termux-url-opener
 log "Putting termux-url-opener"
