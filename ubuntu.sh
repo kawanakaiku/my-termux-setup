@@ -101,6 +101,11 @@ rm -rf var/cache/apt/archives
 mkdir -p var/cache/apt
 ln -s ${debarchive} var/cache/apt/archives
 
+##move cache to sd
+rm -rf "${dir}/root/.cache"
+mkdir -p "${external}/deb/cache"
+ln -s "${external}/deb/cache" "${dir}/root/.cache"
+
 
 bin=$HOME/bin
 script=$bin/startubuntu.sh
@@ -159,8 +164,9 @@ echo -e "ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime"
 echo -e "apt-get update \napt-get purge -y --auto-remove $unwanted \napt-mark hold $unwanted"
 echo -e "apt-get install --no-install-recommends -y $wanted $errors"
 echo -e "rm -f $(for i in $errors;do echo /var/lib/dpkg/info/$i.postinst;done) \napt-get --fix-broken install"
-echo -e "cd /root \nmkdir -p bin \ncd bin \ncurl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp &&\n
-chmod a+rx yt-dlp"
+echo -e "cd /root \nmkdir -p bin \ncd bin"
+echo -e "pip3 -U yt-dlp"
+#echo -e "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp &&\n chmod a+rx yt-dlp"
 )| $script sh
 
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m The start script has been successfully created!\n"
