@@ -104,7 +104,7 @@ log "Configuring ssh"
 sshconf="$PREFIX/etc/ssh/sshd_config"
 passwd="123456"
 log "Changing password to ${passwd}"
-echo -e "{$passwd}\n${passwd}" | passwd
+echo -e "${passwd}\n${passwd}" | passwd
 echo "X11Forwarding yes" |
 while read string; do
    if ! grep -q "^${string}" "${sshconf}" ; then
@@ -112,7 +112,7 @@ while read string; do
    fi
 done | tee -a "$sshconf" >/dev/null
 mkdir -p "$HOME/.termux/boot"
-echo '#!/data/data/com.termux/files/usr/bin/sh\nsshd' | tee "$HOME/.termux/boot/00start_ssh"
+echo -en '#!/data/data/com.termux/files/usr/bin/sh\nsshd' | tee "$HOME/.termux/boot/00start_ssh" >/dev/null
 unset passwd
 
 
