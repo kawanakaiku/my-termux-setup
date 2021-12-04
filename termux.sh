@@ -49,7 +49,7 @@ path-exclude=$PREFIX/share/man/*
 # Delete docs
 path-exclude=$PREFIX/share/doc/*
 path-include=$PREFIX/share/doc/*/copyright" |
-while read string;do
+while read string; do
    if ! [ -f "$dpkgconf" ] || ! grep -q "^${string}" "${dpkgconf}" ; then
       echo "$string"
    fi
@@ -72,8 +72,9 @@ sed -i -e 's@^deb h@deb [trusted=yes] h@g' "$PREFIX/etc/apt/sources.list"
 
 ##Install favorites
 log "Installing favorites"
-pkgs="ffmpeg bash-completion nano wget python ncdu htop"
-pkg install -y $pkgs
+pkgs="ffmpeg bash-completion nano wget python ncdu htop openssh x11-repo termux-api"
+apt update -y
+apt install -y $pkgs
 unset pkgs
 
 ##Install yt-dlp to ~/bin
@@ -97,6 +98,24 @@ log "Moving cache dir to SD"
 mkdir -p "$external/deb/cache"
 rm -rf "$HOME/.cache"
 ln -s "$external/deb/cache" "$HOME/.cache"
+
+##Configure ssh
+log "Configuring ssh"
+sshconf="$PREFIX/etc/ssh/sshd_config"
+passwd="123456"
+log "Changing password to ${passwd}"
+echo -e "{$passwd}\n${passwd}" | passwd
+echo "X11Forwarding yes" |
+while read string; do
+   if ! grep -q "^${string}" "${sshconf}" ; then
+      echo "$string"
+   fi
+done | tee -a "$sshconf" >/dev/null
+mkdir -p "$HOME/.termux/boot"
+echo '#!/data/data/com.termux/files/usr/bin/sh\nsshd' | tee "$HOME/.termux/boot/00start_ssh"
+unset passwd
+
+
 
 termux-wake-unlock
 exit
