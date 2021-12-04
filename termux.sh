@@ -53,10 +53,7 @@ while read string;do
    if ! [ -f "$dpkgconf" ] || ! grep -q "^${string}" "${dpkgconf}" ; then
       echo "$string"
    fi
-done | tee -a "$dpkgconf"
-if [ -n "${strings}" ]; then
-   echo -en "$strings" | tee -a "$dpkgconf" >/dev/null
-fi
+done | tee -a "$dpkgconf" >/dev/null
 unset dpkgconf
 
 ##Add ~/bin to PATH
