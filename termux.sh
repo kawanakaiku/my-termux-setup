@@ -32,10 +32,10 @@ ln -s "$termuxtmp" "$debcache"
 unset debcache termuxtmp
 
 ##Add SD variable
-log "Addin SD variable"
+log "Adding SD variable"
 string="export SD=\"\$((mount | awk '{print \$3}' | grep -e \"^/storage/\" | grep -v -e \"^/storage/emulated\" | head -n1) || echo \"/sdcard\")\""
 bashrc="$HOME/.bashrc"
-if  [ -f "$bashrc" ] || ! grep -q "^${string}" "${bashrc}"; then
+if ! [ -f "$bashrc" ] || ! grep -q "^${string}" "${bashrc}"; then
    echo "${string}" | tee -a "${bashrc}" >/dev/null
 fi
 unset string bashrc
@@ -51,7 +51,7 @@ path-exclude=$PREFIX/share/man/*
 path-exclude=$PREFIX/share/doc/*
 path-include=$PREFIX/share/doc/*/copyright" |
 while read string;do
-   if [ -f "$dpkgconf" ] || ! grep -q "^${string}" "${dpkgconf}" ; then
+   if ! [ -f "$dpkgconf" ] || ! grep -q "^${string}" "${dpkgconf}" ; then
       strings="${string}\n"
    fi
 done
@@ -65,7 +65,7 @@ log "Adding ~/bin to PATH"
 mkdir -p "$HOME/bin"
 bashrc="$HOME/.bashrc"
 string='export PATH="$PATH:$HOME/bin"'
-if [ -f "$bashrc" ] || ! grep -zoPq "^$bashrc" "$HOME/.bashrc"; then
+if ! [ -f "$bashrc" ] || ! grep -zoPq "^$bashrc" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 unset bin bashrc string
@@ -83,7 +83,7 @@ unset pkgs
 
 ##Put termux-url-opener
 log "Putting termux-url-opener"
-cat <<"EOF" | tee "$HOME/bin/termux-url-opener"
+cat <<"EOF" | tee "$HOME/bin/termux-url-opener" >/dev/null
 #!/data/data/com.termux/files/usr/bin/bash
 url="$1"
 SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
