@@ -43,7 +43,6 @@ unset string bashrc
 ##Disable man-db
 log "Disabling man-db"
 dpkgconf="$PREFIX/etc/dpkg/dpkg.cfg.d/01_nodoc"
-strings=""
 mkdir -p "$(dirname $dpkgconf)"
 echo "# Delete man pages
 path-exclude=$PREFIX/share/man/*
@@ -52,13 +51,13 @@ path-exclude=$PREFIX/share/doc/*
 path-include=$PREFIX/share/doc/*/copyright" |
 while read string;do
    if ! [ -f "$dpkgconf" ] || ! grep -q "^${string}" "${dpkgconf}" ; then
-      strings+="${string}\n"
+      echo "$string"
    fi
-done
+done | tee -a "$dpkgconf"
 if [ -n "${strings}" ]; then
    echo -en "$strings" | tee -a "$dpkgconf" >/dev/null
 fi
-unset strings dpkgconf
+unset dpkgconf
 
 ##Add ~/bin to PATH
 log "Adding ~/bin to PATH"
