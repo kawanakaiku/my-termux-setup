@@ -27,7 +27,7 @@ log "Moving Termux deb package to external"
 debcache="$HOME/../../cache/apt/archives"
 termuxtmp="$external/deb/termux"
 rm -rf "$debcache"
-mkdir -p "$(dirname $debcache)"
+mkdir -p "$(dirname $debcache)" "$termuxtmp"
 ln -s "$termuxtmp" "$debcache"
 unset debcache termuxtmp
 
@@ -94,6 +94,7 @@ EOF
 
 ##Move cache dir to SD
 log "Moving cache dir to SD"
+mkdir -p "$external/deb/cache"
 ln -s "$external/deb/cache" "$HOME/.cache"
 
 termux-wake-unlock
