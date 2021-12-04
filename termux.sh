@@ -25,7 +25,7 @@ unset string termuxprop
 ##Move Termux deb package to external
 log "Moving Termux deb package to external"
 debcache="$HOME/../../cache/apt/archives"
-termuxtmp="$external/deb"
+termuxtmp="$external/deb/termux"
 rm -rf "$debcache"
 mkdir -p "$(dirname $debcache)"
 ln -s "$termuxtmp" "$debcache"
@@ -70,16 +70,17 @@ if ! [ -f "$bashrc" ] || ! grep -zoPq "^$bashrc" "$HOME/.bashrc"; then
 fi
 unset bin bashrc string
 
-##Install yt-dlp to ~/bin
-log "Installing yt-dlp to ~/bin"
-curl --retry 5 -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp" -o "$HOME/bin/yt-dlp"
-chmod a+rx "$HOME/bin/yt-dlp"
-
 ##Install favorites
 log "Installing favorites"
-pkgs="ffmpeg bash-completion nano wget"
+pkgs="ffmpeg bash-completion nano wget python"
 pkg install -y $pkgs
 unset pkgs
+
+##Install yt-dlp to ~/bin
+log "Installing yt-dlp to ~/bin"
+#curl --retry 5 -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp" -o "$HOME/bin/yt-dlp"
+#chmod a+rx "$HOME/bin/yt-dlp"
+pip3 install yt-dlp
 
 ##Put termux-url-opener
 log "Putting termux-url-opener"
@@ -90,6 +91,10 @@ SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/e
 dir="$SD/Movies"
 $HOME/bin/yt-dlp -o "$dir/%(title)s.%(ext)s" "$url" || sleep 1m
 EOF
+
+##Move cache dir to SD
+log "Moving cache dir to SD"
+ln -s "$external/deb/cache" "$HOME/.cache"
 
 termux-wake-unlock
 exit
