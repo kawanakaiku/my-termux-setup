@@ -170,7 +170,7 @@ echo -e "apt-get install --no-install-recommends -y $wanted $errors"
 echo -e "rm -f $(for i in $errors;do echo /var/lib/dpkg/info/$i.postinst;done) \napt-get --fix-broken install"
 echo -e "apt-get update"
 echo -e "cd /root \nmkdir -p bin \ncd bin"
-echo -e "pip3 -U yt-dlp"
+echo -e "pip3 install -U yt-dlp"
 #echo -e "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp &&\n chmod a+rx yt-dlp"
 )| $script sh
 
