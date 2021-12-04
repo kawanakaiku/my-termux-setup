@@ -91,7 +91,9 @@ cat <<"EOF" | tee "$HOME/bin/termux-url-opener" >/dev/null
 url="$1"
 SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
 dir="$SD/Movies"
-${HOME}/bin/startubuntu.sh /usr/local/bin/yt-dlp -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
+cat <<EOG | ${HOME}/bin/startubuntu.sh bash
+/usr/local/bin/yt-dlp -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
+EOG
 EOF
 
 ##Move cache dir to SD
