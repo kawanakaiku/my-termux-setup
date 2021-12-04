@@ -2,17 +2,6 @@
 
 termux-wake-lock
 
-##disable login message
-echo -n | tee $HOME/../usr/etc/motd
-
-##enable fullscreen
-string="fullscreen = true"
-termuxprop=$HOME/.termux/termux.properties
-if ! grep -q "^${string}" "${termuxprop}" ;then
-   echo "${string}" | tee -a "${termuxprop}"
-fi
-
-
 time1="$( date +"%r" )"
 
 
@@ -28,10 +17,8 @@ case "$ARCHITECTURE" in
 esac
 
 external=$((mount | grep -e " /storage/" | grep -v -e " /storage/emulated" | head -n1 | awk '{print $3}') || echo "/sdcard")
-#/storage/FFD9-7D43
 download=$external/Download
 debarchive=$external/deb
-termuxtmp=$external/deb
 debarchive=$external/deb/ubuntu-${UBUNTU_VERSION}-${ARCHITECTURE}
 
 base=${download}/ubuntu-base-${UBUNTU_VERSION}-base-${ARCHITECTURE}.tar.gz
@@ -44,12 +31,7 @@ until mkdir -p "$download";do
    am start -a android.settings.APPLICATION_DETAILS_SETTINGS -d package:com.termux
    sleep 3
 done
-mkdir -p "$termuxtmp" "$debarchive"
-
-##termux deb package to external
-rm -rf $HOME/../../cache/apt/archives
-mkdir -p $HOME/../../cache/apt
-ln -s ${termuxtmp} $HOME/../../cache/apt/archives
+mkdir -p "$debarchive"
 
 if [ -d "${dir}" ];then
     printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;227m[WARNING]:\e[0m \x1b[38;5;87m Skipping the download\n"
@@ -61,7 +43,7 @@ while [ -z "$(command -v proot)" ];do
     if compgen -G "${termuxtmp}/proot_*.deb" >/dev/null && compgen -G "${termuxtmp}/libtalloc_*.deb" >/dev/null ;then
        apt install ${termuxtmp}/{proot,libtalloc}_*.deb
     else
-       pkg install -y proot || sleep 1
+       apt install -y proot || sleep 1
     fi
 done
 if [ ! -f "${base}" ];then
