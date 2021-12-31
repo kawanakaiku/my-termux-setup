@@ -4,10 +4,7 @@ termux-wake-lock
 
 time1="$( date +"%r" )"
 
-
-dir=${HOME}/ubuntu-fs
-UBUNTU_VERSION=21.10
-ARCHITECTURE=$(dpkg --print-architecture)
+[ -z "$ARCHITECTURE" ] && ARCHITECTURE=$(dpkg --print-architecture)
 case "$ARCHITECTURE" in
     aarch64) ARCHITECTURE=arm64;;
     arm) ARCHITECTURE=armhf;;
@@ -16,9 +13,10 @@ case "$ARCHITECTURE" in
         exit 1;;
 esac
 
+dir=${HOME}/ubuntu-fs-${ARCHITECTURE}
+UBUNTU_VERSION=21.10
 external=$((mount | grep -e " /storage/" | grep -v -e " /storage/emulated" | head -n1 | awk '{print $3}') || echo "/sdcard")
 download=$external/Download
-debarchive=$external/deb
 debarchive=$external/deb/ubuntu-${UBUNTU_VERSION}-${ARCHITECTURE}
 
 base=${download}/ubuntu-base-${UBUNTU_VERSION}-base-${ARCHITECTURE}.tar.gz
@@ -108,7 +106,7 @@ ln -s "${external}/deb/cache" "${dir}/root/.cache"
 
 
 bin=$HOME/bin
-script=$bin/startubuntu.sh
+script=$bin/startubuntu-${ARCHITECTURE}.sh
 
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m Creating the start script, please wait...\n"
 mkdir -p "${bin}"
