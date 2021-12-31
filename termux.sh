@@ -72,17 +72,17 @@ sed -i -e 's@^deb h@deb [trusted=yes] h@g' "$PREFIX/etc/apt/sources.list"
 
 ##Install favorites
 log "Installing favorites"
-pkgs="openssh "
-#pkgs+="bash-completion ffmpeg nano wget python ncdu htop openssh x11-repo termux-api "
+#pkgs="openssh "
+pkgs="bash-completion ffmpeg nano wget python ncdu htop openssh x11-repo termux-api p7zip command-not-found "
 apt update -y
 apt install -y $pkgs
 unset pkgs
 
 ##Install yt-dlp to ~/bin
-#log "Installing yt-dlp to ~/bin"
+log "Installing yt-dlp to ~/bin"
 ##curl --retry 5 -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp" -o "$HOME/bin/yt-dlp"
 ##chmod a+rx "$HOME/bin/yt-dlp"
-#pip3 install -U --no-deps yt-dlp
+pip install -U --no-deps yt-dlp
 
 ##Put termux-url-opener
 log "Putting termux-url-opener"
@@ -91,9 +91,7 @@ cat <<"EOF" | tee "$HOME/bin/termux-url-opener" >/dev/null
 url="$1"
 SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
 dir="$SD/Movies"
-cat <<EOG | ${HOME}/bin/startubuntu.sh bash
-/usr/local/bin/yt-dlp -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
-EOG
+"${PREFIX}/bin/yt-dlp" -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
 EOF
 
 ##Move cache dir to SD
@@ -103,20 +101,20 @@ rm -rf "$HOME/.cache"
 ln -s "$external/deb/cache" "$HOME/.cache"
 
 ##Configure ssh
-log "Configuring ssh"
-sshconf="$PREFIX/etc/ssh/sshd_config"
-passwd="123456"
-log "Changing password to ${passwd}"
-echo -e "${passwd}\n${passwd}" | passwd
-echo "X11Forwarding yes" |
-while read string; do
-   if ! grep -q "^${string}" "${sshconf}" ; then
-      echo "$string"
-   fi
-done | tee -a "$sshconf" >/dev/null
-mkdir -p "$HOME/.termux/boot"
-echo -en '#!/data/data/com.termux/files/usr/bin/sh\nsshd' | tee "$HOME/.termux/boot/00start_ssh" >/dev/null
-unset passwd
+#log "Configuring ssh"
+#sshconf="$PREFIX/etc/ssh/sshd_config"
+#passwd="123456"
+#log "Changing password to ${passwd}"
+#echo -e "${passwd}\n${passwd}" | passwd
+#echo "X11Forwarding yes" |
+#while read string; do
+#   if ! grep -q "^${string}" "${sshconf}" ; then
+#      echo "$string"
+#   fi
+#done | tee -a "$sshconf" >/dev/null
+#mkdir -p "$HOME/.termux/boot"
+#echo -en '#!/data/data/com.termux/files/usr/bin/sh\nsshd' | tee "$HOME/.termux/boot/00start_ssh" >/dev/null
+#unset passwd
 
 
 
