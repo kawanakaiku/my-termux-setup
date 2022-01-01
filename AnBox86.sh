@@ -13,16 +13,16 @@ function run_Main()
 	rm AnBox86.sh # self-destruct (since this script should only be run once)
 	
         # Enable left & right keys in Termux (optional) - https://www.learntermux.tech/2020/01/how-to-enable-extra-keys-in-termux.html
-	mkdir $HOME/.termux/
-	echo "extra-keys = [['ESC','/','-','HOME','UP','END'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT']]" >> $HOME/.termux/termux.properties
-	termux-reload-settings
+	#mkdir $HOME/.termux/
+	#echo "extra-keys = [['ESC','/','-','HOME','UP','END'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT']]" >> $HOME/.termux/termux.properties
+	#termux-reload-settings
 	
 	# Update Termux source lists (just in case Termux was downloaded from Google Play Store instead of from F-Droid)
 	#  - Termux source list mirrors are located here: https://github.com/termux/termux-app#google-playstore-deprecated
-	echo "deb https://termux.mentality.rip/termux-main stable main" > $PREFIX/etc/apt/sources.list 
-	echo "deb https://termux.mentality.rip/termux-games games stable" > $PREFIX/etc/apt/sources.list.d/game.list
-	echo "deb https://termux.mentality.rip/termux-science science stable" > $PREFIX/etc/apt/sources.list.d/science.list
-	apt update && apt upgrade -y -o Dpkg::Options::=--force-confnew # upgrade Termux and suppress user prompts
+	#echo "deb https://termux.mentality.rip/termux-main stable main" > $PREFIX/etc/apt/sources.list 
+	#echo "deb https://termux.mentality.rip/termux-games games stable" > $PREFIX/etc/apt/sources.list.d/game.list
+	#echo "deb https://termux.mentality.rip/termux-science science stable" > $PREFIX/etc/apt/sources.list.d/science.list
+	#apt update && apt upgrade -y -o Dpkg::Options::=--force-confnew # upgrade Termux and suppress user prompts
 	
 	# Create the Ubuntu PRoot within Termux
 	# - And initialize paths for our Termux shell instance (also add them to .bashrc for future Termux shell instances)
