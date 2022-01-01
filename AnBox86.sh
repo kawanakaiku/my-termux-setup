@@ -10,7 +10,7 @@
 
 function run_Main()
 {
-	rm AnBox86.sh # self-destruct (since this script should only be run once)
+	#rm AnBox86.sh # self-destruct (since this script should only be run once)
 	
         # Enable left & right keys in Termux (optional) - https://www.learntermux.tech/2020/01/how-to-enable-extra-keys-in-termux.html
 	#mkdir $HOME/.termux/
@@ -31,27 +31,25 @@ function run_Main()
 	git clone https://github.com/ZhymabekRoman/proot-static # Use a 32bit PRoot instead of 64bit
 	
 	# Create a script to start XServerXSDL and log into PRoot as the 'user' account (which we will create later)
-	echo >> Start_AnBox86.sh "#!/bin/bash"
-	echo >> Start_AnBox86.sh ""
-	echo >> Start_AnBox86.sh "am start --user 0 -n x.org.server/x.org.server.RunFromOtherApp"
-	echo >> Start_AnBox86.sh ""
-	echo >> Start_AnBox86.sh "sleep 7s"
-	echo >> Start_AnBox86.sh ""
-	echo >> Start_AnBox86.sh "export PATH=$HOME/proot-static/bin:$PATH"
-	echo >> Start_AnBox86.sh ""
-	echo >> Start_AnBox86.sh "export PROOT_LOADER=$HOME/proot-static/bin/loader"
-	echo >> Start_AnBox86.sh ""
-	echo >> Start_AnBox86.sh "proot-distro login --bind /sdcard --isolated ubuntu-20.04 -- su - user" # '--isolated' avoids program conflicts between Termux & PRoot (credits: Mipster)
+        sed 's/^\t*//' << '	EOF' > Start_AnBox86.sh
+	#!/bin/bash
+	am start --user 0 -n x.org.server/x.org.server.RunFromOtherApp
+	sleep 7s
+	export PATH=$HOME/proot-static/bin:$PATH
+	export PROOT_LOADER=$HOME/proot-static/bin/loader
+	proot-distro login --bind /sdcard --isolated ubuntu-20.04 -- su - user
+	EOF
+	# '--isolated' avoids program conflicts between Termux & PRoot (credits: Mipster)
 	chmod +x Start_AnBox86.sh
 	
 	# Create a script to log into PRoot as the 'user' account (which we will create later)
-	echo >> launch_ubuntu.sh "#!/bin/bash"
-	echo >> launch_ubuntu.sh ""
-	echo >> launch_ubuntu.sh "export PATH=$HOME/proot-static/bin:$PATH"
-	echo >> launch_ubuntu.sh ""
-	echo >> launch_ubuntu.sh "export PROOT_LOADER=$HOME/proot-static/bin/loader"
-	echo >> launch_ubuntu.sh ""
-	echo >> launch_ubuntu.sh "proot-distro login --bind /sdcard --isolated ubuntu-20.04 -- su - user" # '--isolated' avoids program conflicts between Termux & PRoot (credits: Mipster)
+	sed 's/^\t*//' << '	EOF' > launch_ubuntu.sh
+	#!/bin/bash
+	export PATH=$HOME/proot-static/bin:$PATH
+	export PROOT_LOADER=$HOME/proot-static/bin/loader
+	proot-distro login --bind /sdcard --isolated ubuntu-20.04 -- su - user
+	EOF
+	# '--isolated' avoids program conflicts between Termux & PRoot (credits: Mipster)
 	chmod +x launch_ubuntu.sh
 	
 	# Inject a 'second stage' installer script into Ubuntu
