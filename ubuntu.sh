@@ -155,6 +155,14 @@ fi
 echo -en '# KEYBOARD CONFIGURATION FILE\n\n# Consult the keyboard(5) manual page.\n\nXKBMODEL="pc105"\nXKBLAYOUT="jp"\nXKBVARIANT=""\nXKBOPTIONS=""\n\nBACKSPACE="guess"\n' |
 tee "${dir}/etc/default/keyboard" >/dev/null
 
+##use eatmydata
+"$script" apt-get update
+"$script" apt-get install -y --no-install-recommends eatmydata
+echo -e 'LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+"$LD_LIBRARY_PATH:"}/usr/lib/libeatmydata\nLD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}libeatmydata.so\nexport LD_LIBRARY_PATH LD_PRELOAD' |
+tee "${dir}/etc/profile.d/00-eatmydata.sh" > /dev/null
+chmod +x "${dir}/etc/profile.d/00-eatmydata.sh"
+
+
 unwanted="tumbler ubuntu-report popularity-contest apport whoopsie apport-symptoms snap snapd apparmor synaptic rsyslog man-db yelp-xsl yelp"
 wanted="htop ncdu nano vim bash-completion wget curl ffmpeg p7zip-full p7zip-rar python3-pip python3-requests python3-numpy python3-matplotlib python3-pandas python3-sklearn python3-pyftpdlib python3-bs4 unar pv aria2 nodejs npm ruby imagemagick command-not-found python3-websockets python3-mutagen python3-pycryptodome"
 errors=""
@@ -166,11 +174,10 @@ echo -e "ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime"
 echo -e "apt-get update \napt-get purge -y --auto-remove $unwanted \napt-mark hold $unwanted"
 echo -e "apt-get install --no-install-recommends -y $wanted $errors"
 echo -e "rm -f $(for i in $errors;do echo /var/lib/dpkg/info/$i.postinst;done) \napt-get --fix-broken install"
-echo -e "apt-get update"
 echo -e "cd /root \nmkdir -p bin \ncd bin"
 echo -e "pip3 install -U yt-dlp"
 #echo -e "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp &&\n chmod a+rx yt-dlp"
-)| $script sh
+)| "$script" sh
 
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m The start script has been successfully created!\n"
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m Fixing shebang of startubuntu.sh, please wait...\n"
