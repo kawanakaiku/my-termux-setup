@@ -33,7 +33,6 @@ unset debcache termuxtmp
 
 ##Add SD variable
 log "Adding SD variable"
-string="export SD=\"\$((mount | awk '{print \$3}' | grep -e \"^/storage/\" | grep -v -e \"^/storage/emulated\" | head -n1) || echo \"/sdcard\")\""
 string="export SD=\"\$(mount | awk '{print \$3}' | grep -e \"^/storage/\" | (grep -v -e \"^/storage/emulated\" || echo \"/sdcard\") | head -n1)\""
 bashrc="$HOME/.bashrc"
 if ! [ -f "$bashrc" ] || ! grep -q "^${string}" "${bashrc}"; then
