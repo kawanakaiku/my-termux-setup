@@ -7,7 +7,7 @@ log(){
 }
 
 ##detect external sdcard path
-external="$( (mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
+external="$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)"
 
 ##Disable login message
 log "Disabling login message"
@@ -34,6 +34,7 @@ unset debcache termuxtmp
 ##Add SD variable
 log "Adding SD variable"
 string="export SD=\"\$((mount | awk '{print \$3}' | grep -e \"^/storage/\" | grep -v -e \"^/storage/emulated\" | head -n1) || echo \"/sdcard\")\""
+string="export SD=\"\$(mount | awk '{print \$3}' | grep -e \"^/storage/\" | (grep -v -e \"^/storage/emulated\" || echo \"/sdcard\") | head -n1)\""
 bashrc="$HOME/.bashrc"
 if ! [ -f "$bashrc" ] || ! grep -q "^${string}" "${bashrc}"; then
    echo "${string}" | tee -a "${bashrc}" >/dev/null
@@ -89,7 +90,7 @@ log "Putting termux-url-opener"
 cat <<"EOF" | tee "$HOME/bin/termux-url-opener" >/dev/null
 #!/data/data/com.termux/files/usr/bin/bash
 url="$1"
-SD="$((mount | awk '{print $3}' | grep -e "^/storage/" | grep -v -e "^/storage/emulated" | head -n1) || echo "/sdcard")"
+SD="$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)"
 dir="$SD/Movies"
 "${PREFIX}/bin/yt-dlp" -o "${dir}/%(title)s.%(ext)s" "$url" || sleep 1m
 EOF
