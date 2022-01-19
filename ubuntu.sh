@@ -41,7 +41,7 @@ while [ -z "$(command -v proot)" ];do
     if compgen -G "${termuxtmp}/proot_*.deb" >/dev/null && compgen -G "${termuxtmp}/libtalloc_*.deb" >/dev/null ;then
        apt install ${termuxtmp}/{proot,libtalloc}_*.deb
     else
-       apt install -y proot || sleep 1
+       apt install -y proot || apt update -y
     fi
 done
 if [ ! -f "${base}" ];then
