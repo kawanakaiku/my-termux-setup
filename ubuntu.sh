@@ -15,7 +15,7 @@ esac
 
 dir=${HOME}/ubuntu-fs-${ARCHITECTURE}
 UBUNTU_VERSION=21.10
-external=$((mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1) || echo "/sdcard")
+external=$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)
 download=$external/Download
 debarchive=$external/deb/ubuntu-${UBUNTU_VERSION}-${ARCHITECTURE}
 
@@ -134,7 +134,7 @@ command+=" HOME=/root"
 command+=" PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/games:/root/bin"
 command+=" TERM=\$TERM"
 command+=" LANG=C.UTF-8"
-command+=" SD=\$((mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1) || echo "/sdcard")"
+command+=" SD=\$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)"
 command+=" /bin/bash --login"
 com="\$@"
 if [ -z "\$1" ];then
