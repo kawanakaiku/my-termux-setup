@@ -84,6 +84,8 @@ path-exclude=/etc/cron.daily/*
 path-exclude=/etc/cron.hourly/*
 path-exclude=/etc/cron.monthly/*
 path-exclude=/etc/cron.weekly/*
+# Delete background images
+path-exclude=/usr/share/backgrounds/*
 EOF
 
 ##disable apt translation-en
