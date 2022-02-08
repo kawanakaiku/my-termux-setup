@@ -171,12 +171,12 @@ chmod +x "${dir}/etc/profile.d/00-display_var.sh"
 
 ##root can use vlc
 cat > "${dir}/etc/profile.d/00-root_vlc.sh" <<'EOM'
-grep -q 'geteuid' /usr/bin/vlc && sed -i 's/geteuid/getppid/' /usr/bin/vlc
+[ -f '/usr/bin/vlc' ] && '/bin/grep' -q 'geteuid' '/usr/bin/vlc' && '/bin/sed' -i 's/geteuid/getppid/' '/usr/bin/vlc'
 EOM
 chmod +x "${dir}/etc/profile.d/00-root_vlc.sh"
 
 ##avoid vlc first ask
-"$script" mkdir -p "/root/.config/vlc"
+"$script" '/bin/mkdir' -p "/root/.config/vlc"
 cp "$(dirname "$0")/conf/vlcrc" "${dir}/root/.config/vlc/vlcrc"
 
 unwanted="tumbler ubuntu-report popularity-contest apport whoopsie apport-symptoms snap snapd apparmor synaptic rsyslog man-db yelp-xsl yelp"
