@@ -56,6 +56,13 @@ while read string; do
 done | tee -a "$dpkgconf" >/dev/null
 unset dpkgconf
 
+##gcc flags
+sudo tee "${PREFIX}/etc/profile.d/00-cflags.sh" >/dev/null <<'EOF'
+export CFLAGS='-pipe'
+export CXXFLAGS='-pipe'
+EOF
+chmod +x "${PREFIX}/etc/profile.d/00-cflags.sh"
+
 ##Add ~/bin to PATH
 log "Adding ~/bin to PATH"
 mkdir -p "$HOME/bin"
