@@ -134,7 +134,7 @@ command+=" HOME=/root"
 command+=" PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/games:/root/bin"
 command+=" TERM=\$TERM"
 command+=" LANG=C.UTF-8"
-command+=" SD=\$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)"
+command+=" SD=\$(mount | awk '{print \$3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)"
 command+=" /bin/bash --login"
 com="\$@"
 if [ -z "\$1" ];then
@@ -162,6 +162,20 @@ echo -e 'export LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}/usr/lib/'$(dpkg --print
 tee "${dir}/etc/profile.d/00-eatmydata.sh" > /dev/null
 chmod +x "${dir}/etc/profile.d/00-eatmydata.sh"
 
+##set display variable
+echo -n 'export DISPLAY=127.0.0.1:0 PULSE_SERVER=tcp:127.0.0.1:4713' |
+tee "${dir}/etc/profile.d/00-display_var.sh" > /dev/null
+chmod +x "${dir}/etc/profile.d/00-display_var.sh"
+
+##root can use vlc
+cat > "${dir}/etc/profile.d/00-root_vlc.sh" <<'EOM'
+grep -q 'geteuid' /usr/bin/vlc && sed -i 's/geteuid/getppid/' /usr/bin/vlc
+EOM
+chmod +x "${dir}/etc/profile.d/00-root_vlc.sh"
+
+##avoid vlc first ask
+"$script" mkdir -p "/root/.config/vlc"
+cp "$(dirname "$0")/conf/vlcrc" "${dir}/root/.config/vlc/vlcrc"
 
 unwanted="tumbler ubuntu-report popularity-contest apport whoopsie apport-symptoms snap snapd apparmor synaptic rsyslog man-db yelp-xsl yelp"
 wanted="htop ncdu nano vim bash-completion wget curl ffmpeg p7zip-full p7zip-rar python3-pip python3-requests python3-numpy python3-matplotlib python3-pandas python3-sklearn python3-pyftpdlib python3-bs4 unar pv aria2 nodejs npm ruby imagemagick command-not-found python3-websockets python3-mutagen python3-pycryptodome"
