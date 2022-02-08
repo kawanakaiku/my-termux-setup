@@ -180,11 +180,11 @@ chmod +x "${dir}/etc/profile.d/00-root_vlc.sh"
 cp "$(dirname "$0")/conf/vlcrc" "${dir}/root/.config/vlc/vlcrc"
 
 ##gcc flags
-sudo tee "${dir}/etc/profile.d/00-cflags.sh" >/dev/null <<'EOF'
+tee "${dir}/etc/profile.d/00-cflags.sh" >/dev/null <<'EOF'
 export CFLAGS='-pipe -march=native -mtune=native'
 export CXXFLAGS='-pipe -march=native -mtune=native'
 EOF
-sudo chmod +x "${dir}/etc/profile.d/00-cflags.sh"
+chmod +x "${dir}/etc/profile.d/00-cflags.sh"
 
 unwanted="tumbler ubuntu-report popularity-contest apport whoopsie apport-symptoms snap snapd apparmor synaptic rsyslog man-db yelp-xsl yelp"
 wanted="htop ncdu nano vim bash-completion wget curl ffmpeg p7zip-full p7zip-rar python3-pip python3-requests python3-numpy python3-matplotlib python3-pandas python3-sklearn python3-pyftpdlib python3-bs4 unar pv aria2 nodejs npm ruby imagemagick command-not-found python3-websockets python3-mutagen python3-pycryptodome"
