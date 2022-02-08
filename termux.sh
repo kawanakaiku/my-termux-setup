@@ -57,7 +57,7 @@ done | tee -a "$dpkgconf" >/dev/null
 unset dpkgconf
 
 ##gcc flags
-sudo tee "${PREFIX}/etc/profile.d/00-cflags.sh" >/dev/null <<'EOF'
+tee "${PREFIX}/etc/profile.d/00-cflags.sh" >/dev/null <<'EOF'
 export CFLAGS='-pipe'
 export CXXFLAGS='-pipe'
 EOF
