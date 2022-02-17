@@ -75,7 +75,7 @@ log "Adding ~/bin to PATH"
 mkdir -p "$HOME/bin"
 bashrc="$HOME/.bashrc"
 string='export PATH="$PATH:$HOME/bin"'
-if ! [ -f "$bashrc" ] || ! grep -q "^$bashrc" "$HOME/.bashrc"; then
+if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 unset bin bashrc string
@@ -137,11 +137,11 @@ log "pip tweak"
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
 string="pip='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip'"
-if ! [ -f "$bashrc" ] || ! grep -q "^$bashrc" "$HOME/.bashrc"; then
+if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 string="pip3='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip3'"
-if ! [ -f "$bashrc" ] || ! grep -q "^$bashrc" "$HOME/.bashrc"; then
+if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 unset bin bashrc string
