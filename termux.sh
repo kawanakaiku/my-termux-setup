@@ -133,11 +133,16 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 ##pip tweak
 #make numpy, scipy and others installable
 #matplotlib still not installable => installable as below
+#opencv-python still not installable
+
+#libxslt for lxml
+#openblas for scipy
+
 log "pip tweak"
 #install required compilers
 #gfortran for scipy?
 curl --retry 10 -s https://its-pointless.github.io/setup-pointless-repo.sh | bash -
-apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts
+apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts opencv ninja make cmake openblas
 setupclang-gfort-11
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
