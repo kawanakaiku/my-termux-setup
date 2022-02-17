@@ -103,8 +103,8 @@ ln -s ${debarchive} var/cache/apt/archives
 
 listcache="var/lib/apt/lists"
 rm -rf "$listcache"
-mkdir -p "$(dirname $listcache)" "$termuxtmp/lists"
-ln -s "$termuxtmp/lists" "$listcache"
+mkdir -p "$(dirname $listcache)" "${debarchive}/lists"
+ln -s "${debarchive}/lists" "$listcache"
 
 ##move cache to sd
 rm -rf "${dir}/root/.cache"
