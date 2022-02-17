@@ -149,7 +149,7 @@ chmod +x "$script"
 
 ##add ~/bin to PATH
 bashrc='export PATH="$PATH:$HOME/bin"'
-if ! grep -zoPq "^$bashrc" "$HOME/.bashrc" 2>/dev/null ;then
+if ! grep -q "^$bashrc" "$HOME/.bashrc" 2>/dev/null ;then
    echo -e "$bashrc" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 
