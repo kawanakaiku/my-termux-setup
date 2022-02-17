@@ -68,7 +68,7 @@ log "Adding ~/bin to PATH"
 mkdir -p "$HOME/bin"
 bashrc="$HOME/.bashrc"
 string='export PATH="$PATH:$HOME/bin"'
-if ! [ -f "$bashrc" ] || ! grep -zoPq "^$bashrc" "$HOME/.bashrc"; then
+if ! [ -f "$bashrc" ] || ! grep -q "^$bashrc" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
 unset bin bashrc string
