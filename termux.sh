@@ -87,7 +87,7 @@ sed -i -e 's@^deb h@deb [trusted=yes] h@g' "$PREFIX/etc/apt/sources.list"
 ##Install favorites
 log "Installing favorites"
 #pkgs="openssh "
-pkgs="bash-completion ffmpeg nano wget python ncdu htop x11-repo termux-api p7zip command-not-found build-essential "
+pkgs="bash-completion ffmpeg nano wget python ncdu htop x11-repo termux-api p7zip command-not-found "
 apt update -y
 apt install -y $pkgs
 unset pkgs
@@ -134,6 +134,9 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 #make numpy, scipy and others installable
 #matplotlib still not installable
 log "pip tweak"
+#install required compilers
+#lfortran for scipy
+apt install -y build-essential lfortran
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
 string="pip='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip'"
