@@ -101,6 +101,11 @@ rm -rf var/cache/apt/archives
 mkdir -p var/cache/apt
 ln -s ${debarchive} var/cache/apt/archives
 
+listcache="var/lib/apt/lists"
+rm -rf "$listcache"
+mkdir -p "$(dirname $listcache)" "$termuxtmp/lists"
+ln -s "$termuxtmp/lists" "$listcache"
+
 ##move cache to sd
 rm -rf "${dir}/root/.cache"
 mkdir -p "${external}/deb/cache"
