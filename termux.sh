@@ -136,7 +136,7 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 log "pip tweak"
 #install required compilers
 #gfortran for scipy?
-curl https://its-pointless.github.io/setup-pointless-repo.sh | bash -
+curl --retry 10 -s https://its-pointless.github.io/setup-pointless-repo.sh | bash -
 apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts
 setupclang-gfort-11
 pip3 install -U pip wheel setuptools
