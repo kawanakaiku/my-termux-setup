@@ -31,6 +31,13 @@ mkdir -p "$(dirname $debcache)" "$termuxtmp"
 ln -s "$termuxtmp" "$debcache"
 unset debcache termuxtmp
 
+debcache="$PREFIX/var/lib/apt/lists"
+termuxtmp="$external/deb/termux/lists"
+rm -rf "$debcache"
+mkdir -p "$(dirname $debcache)" "$termuxtmp"
+ln -s "$termuxtmp" "$debcache"
+unset debcache termuxtmp
+
 ##Add SD variable
 log "Adding SD variable"
 string="export SD=\"\$(mount | awk '{print \$3}' | grep -e \"^/storage/\" | (grep -v -e \"^/storage/emulated\" || echo \"/sdcard\") | head -n1)\""
