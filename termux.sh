@@ -135,8 +135,8 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 #matplotlib still not installable
 log "pip tweak"
 #install required compilers
-#lfortran for scipy
-apt install -y build-essential lfortran
+#lfortran for scipy?
+apt install -y build-essential clang lfortran
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
 string="pip='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip'"
