@@ -130,7 +130,21 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 #echo -en '#!/data/data/com.termux/files/usr/bin/sh\nsshd' | tee "$HOME/.termux/boot/00start_ssh" >/dev/null
 #unset passwd
 
-
+##pip tweak
+#make numpy, scipy and others installable
+#matplotlib still not installable
+log "pip tweak"
+pip3 install -U pip wheel setuptools
+bashrc="$HOME/.bashrc"
+string="pip='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip'"
+if ! [ -f "$bashrc" ] || ! grep -q "^$bashrc" "$HOME/.bashrc"; then
+   echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
+fi
+string="pip3='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip3'"
+if ! [ -f "$bashrc" ] || ! grep -q "^$bashrc" "$HOME/.bashrc"; then
+   echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
+fi
+unset bin bashrc string
 
 termux-wake-unlock
 exit
