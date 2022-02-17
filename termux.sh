@@ -132,20 +132,26 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 
 ##pip tweak
 #make numpy, scipy and others installable
-#matplotlib still not installable
+#matplotlib still not installable => installable as below
 log "pip tweak"
 #install required compilers
 #gfortran for scipy?
 curl https://its-pointless.github.io/setup-pointless-repo.sh | bash -
-apt install -y build-essential clang gcc-11 setup-scripts
+apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts
 setupclang-gfort-11
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
-string="pip='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip'"
+string="alias pip='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip'"
 if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
-string="pip3='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip3'"
+string="alias pip3='LDFLAGS=\" -lm -lcompiler_rt\" LD=\"ld\" pip3'"
+if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
+   echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
+fi
+
+##enable color grep
+string="alias grep='grep --color=always'"
 if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
