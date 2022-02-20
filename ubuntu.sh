@@ -13,8 +13,8 @@ case "$ARCHITECTURE" in
         exit 1;;
 esac
 
-dir=${HOME}/ubuntu-fs-${ARCHITECTURE}
 UBUNTU_VERSION=21.10
+dir=${HOME}/ubuntu-fs-${UBUNTU_VERSION}-${ARCHITECTURE}
 external=$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)
 download=$external/Download
 debarchive=$external/deb/ubuntu-${UBUNTU_VERSION}-${ARCHITECTURE}
@@ -113,7 +113,7 @@ ln -s "${external}/deb/cache" "${dir}/root/.cache"
 
 
 bin=$HOME/bin
-script=$bin/startubuntu-${ARCHITECTURE}.sh
+script=$bin/startubuntu-${UBUNTU_VERSION}-${ARCHITECTURE}.sh
 
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m Creating the start script, please wait...\n"
 mkdir -p "${bin}"
@@ -127,9 +127,9 @@ command="proot"
 #command+=" -k 4.14.81"
 command+=" --link2symlink"
 command+=" -0"
-command+=" -r $dir"
+command+=" -r ${dir}"
 command+=" -b /dev -b /proc -b /sys"
-command+=" -b \$HOME/ubuntu-fs-${ARCHITECTURE}/tmp:/dev/shm"
+command+=" -b ${dir}/tmp:/dev/shm"
 command+=" -b /data/data/com.termux"
 command+=" -b /:/host-rootfs"
 command+=" -b /sdcard"
