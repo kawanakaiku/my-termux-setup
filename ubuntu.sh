@@ -13,6 +13,8 @@ case "$ARCHITECTURE" in
         exit 1;;
 esac
 
+ARCHITECTURE=$ARCHITECTURE
+
 UBUNTU_VERSION=21.10
 dir=${HOME}/ubuntu-fs-${UBUNTU_VERSION}-${ARCHITECTURE}
 external=$(mount | awk '{print $3}' | grep -e "^/storage/" | (grep -v -e "^/storage/emulated" || echo "/sdcard") | head -n1)
@@ -165,7 +167,7 @@ tee "${dir}/etc/default/keyboard" >/dev/null
 ##use eatmydata
 "$script" apt-get update
 "$script" apt-get install -y --no-install-recommends eatmydata
-echo -e 'export LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}/usr/lib/'$(dpkg --print-architecture)'-linux-gnu/libeatmydata.so' |
+echo -e 'export LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}/usr/lib/'$("$script" dpkg --print-architecture)'-linux-gnu/libeatmydata.so' |
 tee "${dir}/etc/profile.d/00-eatmydata.sh" > /dev/null
 chmod +x "${dir}/etc/profile.d/00-eatmydata.sh"
 
