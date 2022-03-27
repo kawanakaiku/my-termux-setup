@@ -166,8 +166,8 @@ tee "${dir}/etc/default/keyboard" >/dev/null
 
 ##use eatmydata
 "$script" apt-get update
-"$script" apt-get install -y --no-install-recommends eatmydata
-echo -e 'export LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}/usr/lib/'$("$script" dpkg --print-architecture)'-linux-gnu/libeatmydata.so' |
+"$script" apt-get install -y --no-install-recommends libeatmydata1
+echo -e 'export LD_PRELOAD=${LD_PRELOAD:+"$LD_PRELOAD "}'"$("$script" dpkg -L "libeatmydata1" | grep -E "^/usr/lib/.*/libeatmydata.so$")" |
 tee "${dir}/etc/profile.d/00-eatmydata.sh" > /dev/null
 chmod +x "${dir}/etc/profile.d/00-eatmydata.sh"
 
