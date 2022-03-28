@@ -57,7 +57,7 @@ fi
 mkdir -p $dir
 cd $dir
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m Decompressing the ubuntu rootfs, please wait...\n"
-tar -zxf "${base}" --exclude='dev'||: -C "${dir}"
+tar -zxf "${base}" --exclude='dev'||: --exclude=/usr/share/man/ --exclude=/usr/share/doc/ --exclude= -C "${dir}"
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m The ubuntu rootfs have been successfully decompressed!\n"
 printf "\x1b[38;5;214m[${time1}]\e[0m \x1b[38;5;83m[Installer thread/INFO]:\e[0m \x1b[38;5;87m Fixing the resolv.conf, so that you have access to the internet\n"
 printf "nameserver 8.8.8.8\nnameserver 8.8.4.4\n" > etc/resolv.conf
@@ -79,7 +79,6 @@ path-include=/usr/share/locale/ja/*
 path-exclude=/usr/share/man/*
 # Delete docs
 path-exclude=/usr/share/doc/*
-path-include=/usr/share/doc/*/copyright
 # Delete cron settings
 path-exclude=/etc/cron.d/*
 path-exclude=/etc/cron.daily/*
@@ -88,6 +87,8 @@ path-exclude=/etc/cron.monthly/*
 path-exclude=/etc/cron.weekly/*
 # Delete background images
 path-exclude=/usr/share/backgrounds/*
+# Delete icons
+path-exclude=/usr/share/icons/*
 EOF
 
 ##disable apt translation-en
