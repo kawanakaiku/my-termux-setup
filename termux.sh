@@ -156,7 +156,7 @@ if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
 fi
 
 ##enable color grep
-string="alias grep='grep --color=always'"
+string="alias grep='grep --color=auto'"
 if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
