@@ -146,7 +146,7 @@ apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts opencv ni
 setupclang-gfort-11
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
-string="function pip3() { local args=(\"\$@\");[ \"\$1\" == wheel ]&&args+=(--wheel-dir \"\$external/deb/wheels\");LDFLAGS='-lm -lcompiler_rt' LD='ld' \`which pip 2>/dev/null\` \"\${args[@]}\"; }"
+string="function pip() { local args=(\"\$@\");[ \"\$1\" == wheel ]&&args+=(--wheel-dir \"\$external/deb/wheels\");LDFLAGS='-lm -lcompiler_rt' LD='ld' \`which pip 2>/dev/null\` \"\${args[@]}\"; }"
 if ! [ -f "$bashrc" ] || ! grep -q "^$string$" "$HOME/.bashrc"; then
    echo -e "$string" | tee -a "$HOME/.bashrc" >/dev/null
 fi
