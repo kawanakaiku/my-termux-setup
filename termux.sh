@@ -55,7 +55,10 @@ echo "# Delete man pages
 path-exclude=$PREFIX/share/man/*
 # Delete docs
 path-exclude=$PREFIX/share/doc/*
-path-include=$PREFIX/share/doc/*/copyright" |
+path-include=$PREFIX/share/doc/*/copyright
+path-exclude=$PREFIX/share/icons/*
+path-exclude=$PREFIX/share/themes/*
+" |
 while read string; do
    if ! [ -f "$dpkgconf" ] || ! grep -q "^${string}" "${dpkgconf}" ; then
       echo "$string"
