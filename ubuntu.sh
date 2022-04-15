@@ -89,6 +89,7 @@ path-exclude=/etc/cron.weekly/*
 path-exclude=/usr/share/backgrounds/*
 # Delete icons
 path-exclude=/usr/share/icons/*
+path-exclude=/usr/share/themes/*
 EOF
 
 ##disable apt translation-en
