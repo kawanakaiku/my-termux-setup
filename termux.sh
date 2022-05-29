@@ -90,7 +90,7 @@ sed -i -e 's@^deb h@deb [trusted=yes] h@g' "$PREFIX/etc/apt/sources.list"
 ##Install favorites
 log "Installing favorites"
 #pkgs="openssh "
-pkgs="bash-completion ffmpeg nano wget python ncdu htop x11-repo termux-api p7zip command-not-found "
+pkgs="bash-completion ffmpeg nano wget python ncdu htop x11-repo termux-api p7zip command-not-found openssl "
 apt update -y
 apt install -y $pkgs
 unset pkgs
