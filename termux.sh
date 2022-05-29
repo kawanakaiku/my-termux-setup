@@ -144,9 +144,9 @@ ln -s "$external/deb/cache" "$HOME/.cache"
 log "pip tweak"
 #install required compilers
 #gfortran for scipy?
-curl --retry 10 -s https://its-pointless.github.io/setup-pointless-repo.sh | bash -
-apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts opencv ninja make cmake openblas
-setupclang-gfort-11
+#curl --retry 10 -s https://its-pointless.github.io/setup-pointless-repo.sh | bash -
+#apt install -y build-essential clang gcc-11 libgfortran5 setup-scripts opencv ninja make cmake openblas
+#setupclang-gfort-11
 pip3 install -U pip wheel setuptools
 bashrc="$HOME/.bashrc"
 string="function pip() { local args=(\"\$@\");[ \"\$1\" == wheel ]&&args+=(--wheel-dir \"\$SD/deb/wheels\");LDFLAGS='-lm -lcompiler_rt' LD='ld' \`which pip 2>/dev/null\` \"\${args[@]}\"; }"
